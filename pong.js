@@ -122,6 +122,16 @@ function collision(b, p) {
 
 }
 
+ // reset piłeczki
+function reserBall() {
+    ball.x = cvs.width/2;
+    ball.y = cvs.height/2;
+
+    ball.speed = 5;
+    ball.velocityX = -ball.velocityX;
+}
+
+
 // aktualizacja: pozycja, ruch, punktacja itd.
 function update() {
     ball.x += ball.velocityX;
@@ -144,25 +154,34 @@ function update() {
         collidePoint = collidePoint / (player.height / 2);
 
         // obliczenie kątu w promieniu
-        let angleRad = collidePoint * Math.PI/4;
+        let angleRad = collidePoint * Math.PI / 4;
 
         // kierunek X piłeczki po uderzeniu
-        let direction = (ball.x < cvs.width/2) ? 1 : -1;
+        let direction = (ball.x < cvs.width / 2) ? 1 : -1;
 
         // zmiana prędkoci/kierunku osi X i Y
         ball.velocityX = direction * ball.speed * Math.cos(angleRad);
         ball.velocityY = direction * ball.speed * Math.sin(angleRad);
 
         // ilekroć piłeczka uderzy  paletkę, odbijamy prędkoć
-        ball.speed += 0.1;
+        ball.speed += 0.5;
 
     }
     // aktualizacja punktacji
-
+    if (ball.x - ball.radius < 0) {
+        // zwycięztwo komputera
+        com.score++;
+        resetBall();
+    } else if (ball.x + ball.radius > cvs.width) {
+        // zwycięztwo gracza
+        user.score++;
+        resetBall();
+    }
 }
 
 // inicjacja gry
 function game() {
+    update()
     render();
 }
 
