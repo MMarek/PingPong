@@ -142,30 +142,30 @@ function update() {
 
     // prosta sztuczna inteligencja - paletka komputera
     let computerLevel = 0.1;
-    com.y += (ball.y - (com.y + com.height / 2)) * computerLevel;
-    // com.y += ((ball.y - (com.y + com.height / 2))) * computerLevel; ???
+    // com.y += (ball.y - (com.y + com.height / 2)) * computerLevel;
+    com.y += ((ball.y - (com.y + com.height / 2))) * computerLevel;
 
     if (ball.y + ball.radius > cvs.height || ball.y - ball.radius < 0) {
         ball.velocityY = -ball.velocityY;
     }
-    let player = (ball.x < cvs.width / 2) ? user : com;
-    // let player = (ball.x + ball.radius < cvs.width/2) ? user : com; ???
+    // let player = (ball.x < cvs.width / 2) ? user : com;
+    let player = (ball.x + ball.radius < cvs.width/2) ? user : com;
 
     if (collision(ball, player)) {
         // gdy piłeczka uderzy gracza
-        let collidePoint = ball.y - (player.y + player.height / 2);
-        // let collidePoint = (ball.y - (player.y + player.height / 2)); ???
+        // let collidePoint = ball.y - (player.y + player.height / 2);
+        let collidePoint = (ball.y - (player.y + player.height / 2));
 
         // normalizacja/jednorodnoć/nadanie symetrycznosci
         collidePoint = collidePoint / (player.height / 2);
 
         // obliczenie kątu w promieniu
-        let angleRad = collidePoint * Math.PI / 4;
-        // let angleRad = collidePoint * (Math.PI / 4); ???
+        // let angleRad = collidePoint * Math.PI / 4;
+        let angleRad = collidePoint * (Math.PI / 4);
 
         // kierunek X piłeczki po uderzeniu
-        let direction = (ball.x < cvs.width / 2) ? 1 : -1;
-        // let direction = (ball.x + ball.radius < cvs.width / 2) ? 1 : -1; ???
+        // let direction = (ball.x < cvs.width / 2) ? 1 : -1;
+        let direction = (ball.x + ball.radius < cvs.width / 2) ? 1 : -1;
 
         // zmiana prędkoci/kierunku osi X i Y
         ball.velocityX = direction * ball.speed * Math.cos(angleRad);
