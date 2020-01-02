@@ -2,6 +2,17 @@
 const cvs = document.getElementById("pong");
 const ctx = cvs.getContext("2d");
 
+// dzwiek
+let hit = new Audio();
+let wall = new Audio();
+let userScore = new Audio();
+let comScore = new Audio();
+
+hit.src = "sounds/hit.mp3";
+wall.src = "sounds/wall.mp3";
+userScore.src = "sounds/userScore.mp3";
+comScore.src = "sounds/comScore.mp3";
+
 // tworzenie paletek/rakiet gracza
 
 const user = {
@@ -147,11 +158,13 @@ function update() {
 
     if (ball.y + ball.radius > cvs.height || ball.y - ball.radius < 0) {
         ball.velocityY = -ball.velocityY;
+        wall.play();
     }
     // let player = (ball.x < cvs.width / 2) ? user : com;
     let player = (ball.x + ball.radius < cvs.width/2) ? user : com;
 
     if (collision(ball, player)) {
+        hit.play();
         // gdy piłeczka uderzy gracza
         // let collidePoint = ball.y - (player.y + player.height / 2);
         let collidePoint = (ball.y - (player.y + player.height / 2));
@@ -179,10 +192,12 @@ function update() {
     if (ball.x - ball.radius < 0) {
         // zwycięztwo komputera
         com.score++;
+        comScore.play();
         resetBall();
     } else if (ball.x + ball.radius > cvs.width) {
         // zwycięztwo gracza
         user.score++;
+        userScore.play()
         resetBall();
     }
 }
