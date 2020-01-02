@@ -33,7 +33,7 @@ const ball = {
     speed: 5,
     velocityX: 5,
     velocityY: 5,
-    color: "WHITE"
+    color: "white"
 };
 
 // rysowanie funkcji - przestrzeń robocza
@@ -45,6 +45,7 @@ function drawRect(x, y, w, h, color) {
 // tworzenie siatki
 const net = {
     x: cvs.width / 2 - 11,
+    // x: (cvs.width -2)/2, ???
     y: 0,
     width: 2,
     height: 10,
@@ -54,7 +55,7 @@ const net = {
 // rysowanie siatki
 function drawNet() {
     for (let i = 0; i <= cvs.height; i += 15) {
-        drawRect(net.x, net.y + 1, net.width, net.height, net.color);
+        drawRect(net.x, net.y + i, net.width, net.height, net.color);
     }
 }
 
@@ -64,6 +65,8 @@ function drawCircle(x, y, r, color) {
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI * 2, false);
+    // ctx.arc(x, y, r, 0, Math.PI * 2, true);
+    // ctx.closePath();
     ctx.fill();
 }
 
@@ -111,7 +114,7 @@ function collision(b, p) {
     b.top = b.y - b.radius;
     b.bottom = b.y + b.radius;
     b.left = b.x - b.radius;
-    b.right = b.x - b.radius;
+    b.right = b.x + b.radius;
 
     p.top = p.y;
     p.bottom = p.y + p.height;
@@ -123,7 +126,7 @@ function collision(b, p) {
 }
 
  // reset piłeczki
-function reserBall() {
+function resetBall() {
     ball.x = cvs.width/2;
     ball.y = cvs.height/2;
 
@@ -140,28 +143,33 @@ function update() {
     // prosta sztuczna inteligencja - paletka komputera
     let computerLevel = 0.1;
     com.y += (ball.y - (com.y + com.height / 2)) * computerLevel;
+    // com.y += ((ball.y - (com.y + com.height / 2))) * computerLevel; ???
 
     if (ball.y + ball.radius > cvs.height || ball.y - ball.radius < 0) {
         ball.velocityY = -ball.velocityY;
     }
     let player = (ball.x < cvs.width / 2) ? user : com;
+    // let player = (ball.x + ball.radius < cvs.width/2) ? user : com; ???
 
     if (collision(ball, player)) {
         // gdy piłeczka uderzy gracza
         let collidePoint = ball.y - (player.y + player.height / 2);
+        // let collidePoint = (ball.y - (player.y + player.height / 2)); ???
 
         // normalizacja/jednorodnoć/nadanie symetrycznosci
         collidePoint = collidePoint / (player.height / 2);
 
         // obliczenie kątu w promieniu
         let angleRad = collidePoint * Math.PI / 4;
+        // let angleRad = collidePoint * (Math.PI / 4); ???
 
         // kierunek X piłeczki po uderzeniu
         let direction = (ball.x < cvs.width / 2) ? 1 : -1;
+        // let direction = (ball.x + ball.radius < cvs.width / 2) ? 1 : -1; ???
 
         // zmiana prędkoci/kierunku osi X i Y
         ball.velocityX = direction * ball.speed * Math.cos(angleRad);
-        ball.velocityY = direction * ball.speed * Math.sin(angleRad);
+        ball.velocityY = ball.speed * Math.sin(angleRad);
 
         // ilekroć piłeczka uderzy  paletkę, odbijamy prędkoć
         ball.speed += 0.5;
