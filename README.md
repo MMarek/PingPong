@@ -2,7 +2,7 @@
 One of the oldest Game.
 
 #Use
-JS
-Canvas
+- JS
+- Canvas
 
 https://mmarek.github.io/PingPong/ - LIVE PREVIEW
