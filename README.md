@@ -1,8 +1,8 @@
 # PingPong
 One of the oldest Game.
 
-# Use
+# Use:
 -JS
 -Canvas
 
-https://mmarek.github.io/PingPong/ - LIVE PREVIEW
+https://mmarek.github.io/PingPong/ -> Have a fun :)
