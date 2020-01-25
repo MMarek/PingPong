@@ -76,8 +76,6 @@ function drawCircle(x, y, r, color) {
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI * 2, false);
-    // ctx.arc(x, y, r, 0, Math.PI * 2, true);
-    // ctx.closePath();
     ctx.fill();
 }
 
@@ -117,7 +115,6 @@ function movePaddle(evt) {
     let rect = cvs.getBoundingClientRect();
 
     user.y = evt.clientY - rect.top - user.height / 2;
-
 }
 
 // detekcja kolizji/zderzenia
@@ -133,7 +130,6 @@ function collision(b, p) {
     p.right = p.x + p.width;
 
     return b.right > p.left && b.bottom > p.top && b.left < p.right && b.top < p.bottom;
-
 }
 
  // reset piłeczki
@@ -160,24 +156,20 @@ function update() {
         ball.velocityY = -ball.velocityY;
         wall.play();
     }
-    // let player = (ball.x < cvs.width / 2) ? user : com;
     let player = (ball.x + ball.radius < cvs.width/2) ? user : com;
 
     if (collision(ball, player)) {
         hit.play();
         // gdy piłeczka uderzy gracza
-        // let collidePoint = ball.y - (player.y + player.height / 2);
         let collidePoint = (ball.y - (player.y + player.height / 2));
 
         // normalizacja/jednorodnoć/nadanie symetrycznosci
         collidePoint = collidePoint / (player.height / 2);
 
         // obliczenie kątu w promieniu
-        // let angleRad = collidePoint * Math.PI / 4;
         let angleRad = collidePoint * (Math.PI / 4);
 
         // kierunek X piłeczki po uderzeniu
-        // let direction = (ball.x < cvs.width / 2) ? 1 : -1;
         let direction = (ball.x + ball.radius < cvs.width / 2) ? 1 : -1;
 
         // zmiana prędkoci/kierunku osi X i Y
@@ -185,7 +177,7 @@ function update() {
         ball.velocityY = ball.speed * Math.sin(angleRad);
 
         // ilekroć piłeczka uderzy  paletkę, odbijamy prędkoć
-        ball.speed += 0.5;
+        ball.speed += 1.5;
 
     }
     // aktualizacja punktacji
@@ -197,14 +189,14 @@ function update() {
     } else if (ball.x + ball.radius > cvs.width) {
         // zwycięztwo gracza
         user.score++;
-        userScore.play()
+        userScore.play();
         resetBall();
     }
 }
 
 // inicjacja gry
 function game() {
-    update()
+    update();
     render();
 }
 
